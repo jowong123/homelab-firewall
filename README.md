@@ -66,6 +66,8 @@ sudo iptables -I FORWARD -i enp0s9 -o enp0s8 -j DROP
 Attachment: 
 
 <img width="767" height="99" alt="iptables rule success added" src="https://github.com/user-attachments/assets/0581ec24-c762-4348-ac13-2c4b5656249c" />
+Attachment: 
+
 <img width="531" height="57" alt="ping failed from guest to trust because firewall rules added" src="https://github.com/user-attachments/assets/50fceb3d-8efa-42f2-8651-665d022ecbf6" />
 
 This follows the principle of least privilege used in real guest network design: guest devices are unmanaged and untrusted by default, so they are blocked from initiating contact with internal systems, while still being permitted to reach the internet.
