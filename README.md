@@ -50,6 +50,7 @@ I work with production systems and incidents daily, but wanted hands-on experien
 Created two isolated subnets (`192.168.10.0/24` and `192.168.20.0/24`) using VirtualBox Internal Networks, simulating a trusted LAN and a guest LAN as they would exist on separate VLANs in a real switch-based network.
 
 Attachment: 
+
 <img width="353" height="414" alt="firewall static ip" src="https://github.com/user-attachments/assets/ed34e98e-c7cd-453f-96d5-8c8b560f25f0" />
 
 ### 2. Routing
@@ -90,7 +91,7 @@ Attachment:
 
 <img width="504" height="323" alt="was failed because es09 was set to 192 168 10 1, which duplicate from trusted client  changed back netplan to 20 1 it worked now" src="https://github.com/user-attachments/assets/f7b7b593-3b83-4677-9663-280f7add6231" />
 
-4. **Asymmetric routing misunderstanding** — initially assumed guest→trusted connectivity was working based on ping behavior, but `tcpdump` revealed packets weren't arriving at all. Root cause: neither client VM had a static route to the other's subnet — each only knew its own directly-connected network. This was a routing gap, not a firewall issue, and was diagnosed by checking `ip route` on both ends rather than assuming the firewall was the only variable.
+3. **Asymmetric routing misunderstanding** — initially assumed guest→trusted connectivity was working based on ping behavior, but `tcpdump` revealed packets weren't arriving at all. Root cause: neither client VM had a static route to the other's subnet — each only knew its own directly-connected network. This was a routing gap, not a firewall issue, and was diagnosed by checking `ip route` on both ends rather than assuming the firewall was the only variable.
 
 ## Key Concepts Demonstrated
 
