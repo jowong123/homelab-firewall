@@ -2,9 +2,9 @@
 
 ## Overview
 
-This project simulates a small business/home network with a dedicated guest network, isolated from the trusted internal network, using virtual machines and Linux-based routing and firewall rules. It demonstrates core networking and security concepts: subnetting, IP forwarding, routing, and stateful firewall policy — the same principles used in real corporate guest WiFi and VLAN deployments.
+This project simulates a small home network with a dedicated guest network, isolated from the trusted internal network, using virtual machines and Linux-based routing and firewall rules. It demonstrates core networking and security concepts: subnetting, IP forwarding, routing, and stateful firewall policy — the same principles used in real corporate guest WiFi and VLAN deployments.
 
-**Why this project**: As an Application Support Analyst, I work with production systems and incidents daily, but wanted hands-on experience with the infrastructure layer underneath — specifically how network segmentation and firewall policy are actually implemented, not just diagrammed.
+I work with production systems and incidents daily, but wanted hands-on experience with the infrastructure layer underneath — specifically how network segmentation and firewall policy are actually implemented, not just diagrammed.
 
 ## Architecture
 
@@ -63,7 +63,9 @@ Implemented isolation between guest and trusted networks using `iptables`:
 sudo iptables -I FORWARD -i enp0s9 -o enp0s8 -j DROP
 ```
 Attachment: 
+
 <img width="767" height="99" alt="iptables rule success added" src="https://github.com/user-attachments/assets/0581ec24-c762-4348-ac13-2c4b5656249c" />
+<img width="531" height="57" alt="ping failed from guest to trust because firewall rules added" src="https://github.com/user-attachments/assets/50fceb3d-8efa-42f2-8651-665d022ecbf6" />
 
 This follows the principle of least privilege used in real guest network design: guest devices are unmanaged and untrusted by default, so they are blocked from initiating contact with internal systems, while still being permitted to reach the internet.
 
@@ -84,9 +86,11 @@ Verified using `tcpdump` on the receiving interface to confirm whether packets p
 
 1. **YAML indentation error in Netplan config** — `addresses:` was indented at the wrong level relative to its parent key, causing a "expected mapping, check indentation" error. Fixed by aligning it as a sibling of `dhcp4:` rather than `enp0sX:`.
 2. **Duplicate static IP across two interfaces** — both `enp0s8` and `enp0s9` were accidentally assigned `192.168.10.1`, causing inconsistent `ip a` output. Diagnosed by inspecting the raw Netplan file rather than assuming the configuration was correct.
-Attachment: 
+Attachment:
+
 <img width="504" height="323" alt="was failed because es09 was set to 192 168 10 1, which duplicate from trusted client  changed back netplan to 20 1 it worked now" src="https://github.com/user-attachments/assets/f7b7b593-3b83-4677-9663-280f7add6231" />
-3. **Asymmetric routing misunderstanding** — initially assumed guest→trusted connectivity was working based on ping behavior, but `tcpdump` revealed packets weren't arriving at all. Root cause: neither client VM had a static route to the other's subnet — each only knew its own directly-connected network. This was a routing gap, not a firewall issue, and was diagnosed by checking `ip route` on both ends rather than assuming the firewall was the only variable.
+
+4. **Asymmetric routing misunderstanding** — initially assumed guest→trusted connectivity was working based on ping behavior, but `tcpdump` revealed packets weren't arriving at all. Root cause: neither client VM had a static route to the other's subnet — each only knew its own directly-connected network. This was a routing gap, not a firewall issue, and was diagnosed by checking `ip route` on both ends rather than assuming the firewall was the only variable.
 
 ## Key Concepts Demonstrated
 
