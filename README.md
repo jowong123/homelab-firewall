@@ -43,7 +43,6 @@ This project simulates a small business/home network with a dedicated guest netw
 - **Ubuntu Server 24.04 LTS** — OS for all three VMs
 - **Netplan** — static IP configuration
 - **iptables** — firewall rule enforcement
-- **tcpdump** — packet-level traffic verification
 
 ## What Was Built
 
