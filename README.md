@@ -56,12 +56,10 @@ Enabled IP forwarding on `router-fw` (`net.ipv4.ip_forward=1`) so it could pass 
 Implemented isolation between guest and trusted networks using `iptables`:
 
 ```bash
-# Allow replies to connections trusted-lan initiated
-sudo iptables -I FORWARD -i enp0s9 -o enp0s8 -m state --state ESTABLISHED,RELATED -j ACCEPT
-
 # Block new connections from guest-lan to trusted-lan
 sudo iptables -I FORWARD -i enp0s9 -o enp0s8 -j DROP
 ```
+<img width="767" height="99" alt="iptables rule success added" src="https://github.com/user-attachments/assets/0581ec24-c762-4348-ac13-2c4b5656249c" />
 
 This follows the principle of least privilege used in real guest network design: guest devices are unmanaged and untrusted by default, so they are blocked from initiating contact with internal systems, while still being permitted to reach the internet.
 
@@ -95,10 +93,3 @@ Documenting real issues hit during the build — this is often more valuable to 
 - iptables chain order and rule precedence (top-down evaluation)
 - Network troubleshooting methodology: verifying at each layer (routing table → firewall rules → packet capture) rather than guessing
 - Principle of least privilege applied to network design
-
-## Possible Extensions
-
-- Add a second firewall rule blocking trusted→guest as well, for full bidirectional isolation
-- Replace static `iptables` rules with `ufw` or a dedicated firewall VM (e.g. pfSense/OPNsense)
-- Add a SIEM (e.g. Wazuh) to monitor and alert on blocked connection attempts
-- Introduce a vulnerable VM on guest-lan and use Kali Linux to demonstrate why the isolation matters in practice
